@@ -1,16 +1,42 @@
 import React, { useState } from 'react';
 import { GameMessages, GameControls, Modal } from './GameComponent';
 
+type PlayerStatusProps = {
+  status: {
+    name: string;
+    position: number;
+    beskar: number;
+    healthPoints: number;
+  };
+};
+
 // PlayerStatus component
-const PlayerStatus = ({ status }) => (
-  <div className="p-4">
-    <h2 className="text-2xl font-bold">Player Status:</h2>
-    <p className="font-bold">Name: <span className="font-normal">{status.name}</span></p>
-    <p className="text-blue-500">Position: {status.position}</p>
-    <p className="text-yellow-500">Beskar: {status.beskar}</p>
-    <p className="text-red-500 animate-pulse">Health Points: {status.healthPoints}</p>
-  </div>
+  const PlayerStatus = ({ status }: PlayerStatusProps) => (
+    <div className="p-4">
+        <h2 className="text-2xl font-bold">Player Status:</h2>
+        <p className="font-bold">Name: <span className="font-normal">{status.name}</span></p>
+        <p className="text-blue-500">Position: {status.position}</p>
+        <p className="text-yellow-500">Beskar: {status.beskar}</p>
+        <p className="text-red-500 animate-pulse">Health Points: {status.healthPoints}</p>
+    </div>
 );
+
+// Enemy type
+type Enemy = {
+  name: string;
+  intro: string;
+  damage: number;
+  frequency: number;
+  position?: number;
+};
+
+// PowerUp type
+type PowerUp = {
+  name: string;
+  benefit: number;
+  frequency: number;
+  position?: number;
+};
 
 // Game component
 const Game = () => {
@@ -23,10 +49,10 @@ const Game = () => {
     });
   
     const [showModal, setShowModal] = useState(false);
-    const [currentEnemy, setCurrentEnemy] = useState(null);
+    const [currentEnemy, setCurrentEnemy] = useState<Enemy | null>(null);
   
     // state for the game messages
-    const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<string[]>([]);
     
     const handleEncounter = (enemy) => {
       setCurrentEnemy(enemy);
