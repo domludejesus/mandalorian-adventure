@@ -20,8 +20,8 @@ interface GameControlsProps {
 }
 
 
-const GameControls: FC<GameControlsProps> = ({ onMoveForward, className }) => (
-  <div className={className}>
+const GameControls: FC<GameControlsProps> = ({ onMoveForward }) => (
+  <div className="p-4">
     <h2 className="text-2xl font-bold">Controls:</h2>
     <button 
       onClick={onMoveForward} 
@@ -47,8 +47,8 @@ const Modal: FC<ModalProps> = ({ show, onClose, onFight, onFlee, className }) =>
   }
 
   return (
-    <div className={className}>
-      <div className="modal-content">
+    <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="bg-white text-black p-4 rounded shadow-lg w-1/2">
         <h2 className="text-2xl font-bold">Encounter</h2>
         <p className="mb-4">Do you want to fight or flee?</p>
         <button 
