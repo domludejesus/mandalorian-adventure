@@ -54,12 +54,13 @@ const Game = () => {
     // state for the game messages
   const [messages, setMessages] = useState<string[]>([]);
     
-    const handleEncounter = (enemy) => {
-      setCurrentEnemy(enemy);
-      setShowModal(true);
-    };
-  
-    const handleFight = () => {
+  const handleEncounter = (enemy: Enemy) => {
+    setCurrentEnemy(enemy);
+    setShowModal(true);
+  };
+
+  const handleFight = () => {
+    if (currentEnemy) { // Add this check
       setStatus((prevStatus) => ({
         ...prevStatus,
         healthPoints: prevStatus.healthPoints - currentEnemy.damage,
@@ -69,20 +70,24 @@ const Game = () => {
         ...prevMessages,
         `You decided to fight. You lost ${currentEnemy.damage} HP.`,
       ]);
-      setShowModal(false);
-    };
+    }
+    setShowModal(false);
+  };
   
-    const handleFlee = () => {
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        position: prevStatus.position - 1,
-      }));
+  const handleFlee = () => {
+    setStatus((prevStatus) => ({
+      ...prevStatus,
+      position: prevStatus.position - 1,
+    }));
+    if (status) { // Add this check
       setMessages((prevMessages) => [
         ...prevMessages,
         `You decided to flee. You moved back to position ${status.position}.`,
       ]);
-      setShowModal(false);
-    };
+    }
+    setShowModal(false);
+  };
+  
 
     // TODO: Add your enemy data here.
     const enemiesData = [
@@ -92,7 +97,7 @@ const Game = () => {
     ];
   
     const generateEnemies = () => {
-      let enemiesList = [];
+      let enemiesList: Enemy[] = [];
       for (let i = 1; i <= 10; i++) {
         enemiesData.forEach((enemy) => {
           if (Math.random() < enemy.frequency) {
@@ -107,23 +112,22 @@ const Game = () => {
     const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'won', 'lost'
 
     // TODO: Add your power-ups data here.
-    const powerUpsData = [
+    const powerUpsData: PowerUp[] = [
       { name: 'Health Boost', benefit: 20, frequency: 0.1 },
       { name: 'Beskar Armor', benefit: 30, frequency: 0.05 },
     ];
-  
-    const generatePowerUps = () => {
-        let powerUpsList = [];
-        for (let i = 1; i <= 10; i++) {
-          powerUpsData.forEach((powerUp) => {
-            if (Math.random() < powerUp.frequency) {
-              powerUpsList.push({ ...powerUp, position: i });
-            }
-          });
-        }
-        return powerUpsList;
-    };
     
+    const generatePowerUps = () => {
+      let powerUpsList: PowerUp[] = [];
+      for (let i = 1; i <= 10; i++) {
+        powerUpsData.forEach((powerUp) => {
+          if (Math.random() < powerUp.frequency) {
+            powerUpsList.push({ ...powerUp, position: i });
+          }
+        });
+      }
+      return powerUpsList;
+    };
     const [powerUps, setPowerUps] = useState(generatePowerUps());
     
     const [level, setLevel] = useState(1);
